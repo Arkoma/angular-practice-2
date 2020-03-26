@@ -1,5 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import {FormsModule} from '@angular/forms';
+import {By} from '@angular/platform-browser';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -7,6 +9,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      imports: [
+        FormsModule
+      ]
     }).compileComponents();
   }));
 
@@ -16,16 +21,29 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-practice'`, () => {
+  it(`should have default name 'Aaron'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-practice');
+    expect(app.name).toEqual('Aaron');
   });
 
-  it('should render title', () => {
+  it('should have input text type', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-practice app is running!');
+    expect(compiled.querySelector('input').type).toEqual('text');
+  });
+
+  it('should have the input field bound to name', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const inputDebug = fixture.debugElement.query(By.css('input[type=text]'));
+      const input = inputDebug.nativeElement;
+      input.value = 'abc';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('p').textContent).toContain('abc');
+      });
   });
 });
