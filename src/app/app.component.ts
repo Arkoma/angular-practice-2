@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  mainContent = 'recipes';
+
+  setMainContent(content: string) {
+    this.mainContent = content;
+  }
 
 }
